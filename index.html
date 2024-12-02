@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js"></script>
+  <script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+  <script src="index.css"></script>
+  <title>Management</title>
+</head>
+<body>
+  <h1>Management</h1>
+  <div id="app">
+    <div class="calendar-container">
+      <button @click="toggleCalendar">{{ currentDate }}</button>
+      <div class="calendar-popup" :class="{ active: showCalendar }">
+        <div id="calendar"></div>
+      </div>
+    </div>
+
+    <h2>Teachers:</h2>
+    <input v-model="nameToGetBy" placeholder="name" type="text" v-on:keyup.enter="getByName(nameToGetBy)" class="form-control" />
+    <button v-on:click="getByName(nameToGetBy)" class="btn btn-primary">Get by name</button>
+
+    <ul id="teacherlist" v-if="teachers && teachers.length">
+      <li v-for="teacher in teachers" :key="teacher.id">
+        {{ teacher.name }} - {{ teacher.salary }}
+      </li>
+    </ul>
+
+    <h3>Add Teacher</h3>
+    <input v-model="addData.name" placeholder="name" type="text" class="form-control" />
+    <input v-model="addData.salary" placeholder="salary" type="number" class="form-control" />
+    <button v-on:click="addTeacher" class="btn btn-success">Add</button>
+    <p>{{ addMessage }}</p>
+
+    <h3>Update Teacher</h3>
+    <input v-model="updateData.id" placeholder="id" type="number" class="form-control" />
+    <input v-model="updateData.name" placeholder="name" type="text" class="form-control" />
+    <input v-model="updateData.salary" placeholder="salary" type="number" class="form-control" />
+    <button v-on:click="updateTeacher" class="btn btn-warning">Update</button>
+    <p>{{ updateMessage }}</p>
+
+    <h3>Delete Teacher</h3>
+    <input v-model="deleteId" placeholder="id" type="number" class="form-control" />
+    <button v-on:click="deleteTeacher(deleteId)" class="btn btn-danger">Delete</button>
+    <p>{{ deleteMessage }}</p>
+  </div>
+  <script src="index.js"></script>
+</body>
+</html>

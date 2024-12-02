@@ -1,0 +1,19 @@
+.calendar-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  
+  .calendar-popup {
+    display: none;
+    position: absolute;
+    top: 30px;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 1000;
+  }
+  .calendar-popup.active {
+    display: block;
+  }
