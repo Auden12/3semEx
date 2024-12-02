@@ -21,10 +21,10 @@ new Vue({
   },
   methods: {
     getAllTeachers() {
-      this.getTeachers(this.base_url)
+      this.getTeachers(baseUrl)
     },
     getByName(name) { // filter teachers by name
-      const url = `${this.base_url}?name=${name}`
+      const url = `${baseUrl}?name=${name}`
       this.getTeachers(url)
     },
     async getTeachers(url) { // helper method for getAllTeachers and getByName
@@ -36,7 +36,7 @@ new Vue({
       }
     },
     async getById(id) {
-      const url = `${this.base_url}/${id}`
+      const url = `${baseUrl}/${id}`
       try {
         const response = await axios.get(url)
         this.singleTeacher = await response.data
@@ -45,7 +45,7 @@ new Vue({
       }
     },
     async deleteTeacher(deleteId) {
-      const url = `${this.base_url}/${deleteId}`
+      const url = `${baseUrl}/${deleteId}`
       try {
         const response = await axios.delete(url)
         this.deleteMessage = `${response.status} ${response.statusText}`
@@ -56,7 +56,7 @@ new Vue({
     },
     async addTeacher() {
       try {
-        const response = await axios.post(this.base_url, this.addData)
+        const response = await axios.post(baseUrl, this.addData)
         this.addMessage = `response ${response.status} ${response.statusText}`
         this.getAllTeachers()
       } catch (ex) {
@@ -64,7 +64,7 @@ new Vue({
       }
     },
     async updateTeacher() {
-      const url = `${this.base_url}/${this.updateData.id}`
+      const url = `${baseUrl}/${this.updateData.id}`
       try {
         const response = await axios.put(url, this.updateData)
         this.updateMessage = `response ${response.status} ${response.statusText}`
