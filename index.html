@@ -41,10 +41,10 @@
 </head>
 <body>
   <div id="app">
-    <div class="content" :class="{ shifted: showCalendar }">
-      <h1>Management</h1>
-      <div class="calendar-container">
-        <button @click="toggleCalendar">{{ currentDate }}</button>
+    <div class="calendar-container">
+      <button id = "calendarbutton" @click="toggleCalendar">{{ currentDate }}</button>
+      <div class="calendar-popup" :class="{ active: showCalendar }">
+        <div id="calendar"></div>
       </div>
       <h2>Teachers:</h2>
       <input v-model="nameToGetBy" placeholder="name" type="text" v-on:keyup.enter="getByName(nameToGetBy)" class="form-control" />
@@ -56,18 +56,18 @@
         </li>
       </ul>
 
-      <h3>Add Teacher</h3>
-      <input v-model="addData.name" placeholder="name" type="text" class="form-control" />
-      <input v-model="addData.salary" placeholder="salary" type="number" class="form-control" />
-      <button v-on:click="addTeacher" class="btn btn-success">Add</button>
-      <p>{{ addMessage }}</p>
+    <h3>Add Teacher</h3>
+    <input v-model = "addData.name" id ="nameinput" placeholder="name" type="text" class="form-control" />
+    <input v-model = "addData.salary" id ="salaryinput" placeholder="salary" type="number" class="form-control" />
+    <button id = "AddTeacherButton" v-on:click="addTeacher" class="btn btn-success">Add</button>
+    <p>{{ addMessage }}</p>
 
-      <h3>Update Teacher</h3>
-      <input v-model="updateData.id" placeholder="id" type="number" class="form-control" />
-      <input v-model="updateData.name" placeholder="name" type="text" class="form-control" />
-      <input v-model="updateData.salary" placeholder="salary" type="number" class="form-control" />
-      <button v-on:click="updateTeacher" class="btn btn-warning">Update</button>
-      <p>{{ updateMessage }}</p>
+    <h3>Update Teacher</h3>
+    <input v-model="updateData.id" id="idInput" placeholder="id" type="number" class="form-control" />
+    <input v-model="updateData.name" id="nameInput" placeholder="name" type="text" class="form-control" />
+    <input v-model="updateData.salary" id="salaryInput" placeholder="salary" type="number" class="form-control" />
+    <button id="updateTeacherButton" v-on:click="updateTeacher" class="btn btn-warning">Update</button>
+    <p>{{ updateMessage }}</p>
 
       <h3>Delete Teacher</h3>
       <input v-model="deleteId" placeholder="id" type="number" class="form-control" />
