@@ -13,68 +13,60 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
   <link rel="stylesheet" href="index.css">
   <title>Management</title>
-  <style>
-    .calendar-sidebar {
-      position: fixed;
-      top: 0;
-      right: -33%;
-      width: 33%;
-      height: 100%;
-      background-color: white;
-      box-shadow: -2px 0 5px rgba(0,0,0,0.5);
-      transition: right 0.3s ease;
-      z-index: 1000;
-    }
 
-    .calendar-sidebar.active {
-      right: 0;
-    }
-
-    .content {
-      transition: margin-right 0.3s ease;
-    }
-
-    .content.shifted {
-      margin-right: 33%;
-    }
-  </style>
+  
 </head>
 <body>
   <div id="app">
-    <div class="calendar-container">
-      <button id = "calendarbutton" @click="toggleCalendar">{{ currentDate }}</button>
-      <div class="calendar-popup" :class="{ active: showCalendar }">
-        <div id="calendar"></div>
+    <div class="content" :class="{ shifted: showCalendar }">
+      <h1>Management</h1>
+      <div class="calendar-container">
+        <button @click="toggleCalendar">{{ currentDate }}</button>
       </div>
-      <h2>Teachers:</h2>
-      <input v-model="nameToGetBy" placeholder="name" type="text" v-on:keyup.enter="getByName(nameToGetBy)" class="form-control" />
-      <button v-on:click="getByName(nameToGetBy)" class="btn btn-primary">Get by name</button>
 
-      <ul id="teacherlist" v-if="teachers && teachers.length">
-        <li v-for="teacher in teachers" :key="teacher.id">
-          {{ teacher.name }} - {{ teacher.salary }}
+      <!-- <h2>Desks:</h2>
+      <input v-model="nameToGetBy" placeholder="name" type="text" v-on:keyup.enter="getByName(nameToGetBy)" class="form-control" />
+      <button v-on:click="getByName(nameToGetBy)" class="btn btn-primary">Get by name</button> -->
+      
+      <h3>Get All Desks</h3>
+      <button v-on:click="getAllDesks" class="btn btn-primary">Get All</button>
+      <ul id="desklist" v-if="desks && desks.length">
+        <li v-for="desk in desks" :key="desk.id">
+          {{ desk.id }} - {{ desk.name }} - {{ desk.occupied }}
         </li>
       </ul>
 
-    <h3>Add Teacher</h3>
-    <input v-model = "addData.name" id ="nameinput" placeholder="name" type="text" class="form-control" />
-    <input v-model = "addData.salary" id ="salaryinput" placeholder="salary" type="number" class="form-control" />
-    <button id = "AddTeacherButton" v-on:click="addTeacher" class="btn btn-success">Add</button>
-    <p>{{ addMessage }}</p>
+      <h3>Get Desk by ID</h3>
+      <input v-model="idToGetBy" placeholder="id" type="number" class="form-control" />
+      <button v-on:click="getById(idToGetBy)" class="btn btn-info">Get by ID</button>
+      <div v-if="singleDesk">
+        <p>ID: {{ singleDesk.id }}</p>
+        <p>Name: {{ singleDesk.name }}</p>
+        <p>Occupied: {{ singleDesk.occupied }}</p>
+      </div>
 
-    <h3>Update Teacher</h3>
-    <input v-model="updateData.id" id="idInput" placeholder="id" type="number" class="form-control" />
-    <input v-model="updateData.name" id="nameInput" placeholder="name" type="text" class="form-control" />
-    <input v-model="updateData.salary" id="salaryInput" placeholder="salary" type="number" class="form-control" />
-    <button id="updateTeacherButton" v-on:click="updateTeacher" class="btn btn-warning">Update</button>
-    <p>{{ updateMessage }}</p>
 
-      <h3>Delete Teacher</h3>
+<!-- 
+      <h3>Add Desk</h3>
+      <input v-model="addData.name" placeholder="name" type="text" class="form-control" />
+      <input v-model="addData.salary" placeholder="salary" type="number" class="form-control" />
+      <button v-on:click="addDesk" class="btn btn-success">Add</button>
+      <p>{{ addMessage }}</p>
+
+      <h3>Update Desk</h3>
+      <input v-model="updateData.id" placeholder="id" type="number" class="form-control" />
+      <input v-model="updateData.name" placeholder="name" type="text" class="form-control" />
+      <input v-model="updateData.salary" placeholder="salary" type="number" class="form-control" />
+      <button v-on:click="updateDesk" class="btn btn-warning">Update</button>
+      <p>{{ updateMessage }}</p>
+
+      <h3>Delete Desk</h3>
       <input v-model="deleteId" placeholder="id" type="number" class="form-control" />
-      <button v-on:click="deleteTeacher(deleteId)" class="btn btn-danger">Delete</button>
+      <button v-on:click="deleteDesk(deleteId)" class="btn btn-danger">Delete</button>
       <p>{{ deleteMessage }}</p>
-    </div>
+    </div> -->
     <div class="calendar-sidebar" :class="{ active: showCalendar }">
+      <button class="close-btn" @click="toggleCalendar">Close</button>
       <div id="calendar"></div>
     </div>
   </div>
