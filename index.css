@@ -52,3 +52,50 @@
     order: 1;
     margin-bottom: 10px;
   }
+  
+  .desk-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .desk-box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    flex: 1 1 calc(33.333% - 10px);
+    box-sizing: border-box;
+    min-width: calc(33.333% - 10px);
+    position: relative; /* Add this to position the checkbox */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow for 3D effect */
+  }
+  
+  .desk-box h4 {
+    margin: 0;
+  }
+  
+  .desk-box p {
+    margin: 5px 0;
+  }
+  
+  /* Position the checkbox in the top right corner */
+  .desk-box label {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    margin: 0;
+  }
+  
+  /* Pseudo-elements to fill the remaining space in the last row */
+  .desk-list::after {
+    content: "";
+    flex: 1 1 calc(33.333% - 10px);
+    box-sizing: border-box;
+  }
+  
+  /* Position the calendar button in the top right corner */
+  .calendar-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }

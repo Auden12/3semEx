@@ -24,10 +24,6 @@ new Vue({
     getAllDesks() {
       this.getDesks(this.baseUrl)
     },
-    getByName(name) { 
-      const url = `${this.baseUrl}?name=${name}`
-      this.getDesks(url)
-    },
     async getDesks(url) {
       try {
         const response = await axios.get(url)
@@ -41,35 +37,6 @@ new Vue({
       try {
         const response = await axios.get(url)
         this.singleDesk = await response.data
-      } catch (ex) {
-        alert(ex.message)
-      }
-    },
-    async deleteDesk(deleteId) {
-      const url = `${this.baseUrl}/${deleteId}`
-      try {
-        const response = await axios.delete(url)
-        this.deleteMessage = `${response.status} ${response.statusText}`
-        this.getAllDesks()
-      } catch (ex) {
-        alert(ex.message)
-      }
-    },
-    async addDesk() {
-      try {
-        const response = await axios.post(this.baseUrl, this.addData)
-        this.addMessage = `response ${response.status} ${response.statusText}`
-        this.getAllDesks()
-      } catch (ex) {
-        alert(ex.message)
-      }
-    },
-    async updateDesk() {
-      const url = `${this.baseUrl}/${this.updateData.id}`
-      try {
-        const response = await axios.put(url, this.updateData)
-        this.updateMessage = `response ${response.status} ${response.statusText}`
-        this.getAllDesks()
       } catch (ex) {
         alert(ex.message)
       }
