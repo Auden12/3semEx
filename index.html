@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,48 +15,54 @@
   <link rel="stylesheet" href="index.css">
   <title>Management</title>
 
-  
+
 </head>
+
 <body>
-    <body>
-        <div id="app">
-          <div class="calendar-container">
-            <button @click="toggleCalendar">{{ currentDate }}</button>
+
+  <body>
+    <div id="app">
+      <div class="calendar-container">
+        <button @click="toggleCalendar" class="btn btn-primary">{{ currentDate }}</button>
+      </div>
+      <div class="dark-mode-container">
+        <label class="switch">
+          <input type="checkbox" v-model="darkMode" @change="toggleDarkMode">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="content" :class="{ shifted: showCalendar }">
+        <h1>Management</h1>
+
+        <h3>Get Desk by ID</h3>
+        <input v-model="idToGetBy" placeholder="id" type="number" class="form-control" />
+        <button v-on:click="getById(idToGetBy)" class="btn btn-info">Get by ID</button>
+        <div v-if="singleDesk">
+          <p>ID: {{ singleDesk.id }}</p>
+          <p>Name: {{ singleDesk.name }}</p>
+          <p>Occupied: {{ singleDesk.occupied }}</p>
+        </div>
+  
+        <h3>All Desks</h3>
+        <div id="desklist" class="desk-list" v-if="desks && desks.length">
+          <div v-for="desk in desks" :key="desk.id" class="desk-box">
+            <h4>ID: {{ desk.id }}</h4>
+            <p>Name: {{ desk.name }}</p>
+            <p>
+              <label>
+                <input type="checkbox" v-model="desk.occupied" disabled>
+                Occupied
+              </label>
+            </p>
           </div>
-          <div class="content" :class="{ shifted: showCalendar }">
-            <h1>Management</h1>
+        </div>
 
-            <h3>Get Desk by ID</h3>
-            <input v-model="idToGetBy" placeholder="id" type="number" class="form-control" />
-            <button v-on:click="getById(idToGetBy)" class="btn btn-info">Get by ID</button>
-            <div v-if="singleDesk">
-              <p>ID: {{ singleDesk.id }}</p>
-              <p>Name: {{ singleDesk.name }}</p>
-              <p>Occupied: {{ singleDesk.occupied }}</p>
-            </div>
-
-      <h3>All Desks</h3>
-      <div id="desklist" class="desk-list" v-if="desks && desks.length">
-        <div v-for="desk in desks" :key="desk.id" class="desk-box">
-          <h4>Name: {{ desk.name }}</h4>
-          <p>ID: {{ desk.id }}</p>
-          <p>
-            <label>
-              <input type="checkbox" v-model="desk.occupied" disabled>
-              Occupied
-            </label>
-          </p>
+        <div class="calendar-sidebar" :class="{ active: showCalendar }">
+          <button class="close-btn" @click="toggleCalendar">Close</button>
+          <div id="calendar"></div>
         </div>
       </div>
+      <script src="index.js"></script>
+  </body>
 
-
-
-
-    <div class="calendar-sidebar" :class="{ active: showCalendar }">
-      <button class="close-btn" @click="toggleCalendar">Close</button>
-      <div id="calendar"></div>
-    </div>
-  </div>
-  <script src="index.js"></script>
-</body>
 </html>
