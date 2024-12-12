@@ -1,117 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css"
-    />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js"></script>
-    <script src="https://unpkg.com/vue@2/dist/vue.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
-    <link rel="stylesheet" href="index.css" />
-    <title>Management</title>
-  </head>
-
-  <body>
-    <div id="app">
-      <div class="button-container">
-        <div class="dark-mode-container">
-          <label class="switch">
-            <input type="checkbox" v-model="darkMode" />
-            <span class="slider"></span>
-          </label>
-        </div>
-        <div class="calendar-container">
-          <button @click="toggleCalendar" class="btn btn-primary">
-            {{ currentDate }}
-          </button>
-        </div>
-      </div>
-      <div class="content" :class="{ shifted: showCalendar }">
-        <h1>Management</h1>
-
-        <h3>Get Desk by ID</h3>
-        <input
-          v-model="idToGetBy"
-          placeholder="id"
-          type="number"
-          class="form-control"
-        />
-        <button v-on:click="getById(idToGetBy)" class="btn btn-info">
-          Get by ID
-        </button>
-        <div v-if="singleDesk">
-          <p>ID: {{ singleDesk.id }}</p>
-          <p>Name: {{ singleDesk.name }}</p>
-          <p>Occupied: {{ singleDesk.occupied }}</p>
-        </div>
-
-        <h3>All Desks</h3>
-        <div id="desklist" class="desk-list" v-if="desks && desks.length">
-          <div
-            v-for="desk in desks"
-            :key="desk.id"
-            :class="['desk-box', { occupied: desk.occupied }]"
-          >
-            <h4>ID: {{ desk.id }}</h4>
-            <p>Name: {{ desk.name }}</p>
-            <p>
-              <label>
-                <input type="checkbox" v-model="desk.occupied" disabled />
-                Occupied
-              </label>
-            </p>
-          </div>
-        </div>
-
-        <h3>Update Desk</h3>
-        <input
-          v-model="updateData.id"
-          placeholder="id"
-          type="number"
-          class="form-control"
-        />
-        <input
-          v-model="updateData.name"
-          placeholder="name"
-          type="text"
-          class="form-control"
-        />
-        <input
-          v-model="updateData.occupied"
-          type="checkbox"
-          class="form-control"
-        />
-        <button v-on:click="updateDesk" class="btn btn-warning">Update</button>
-        <p>{{ updateMessage }}</p>
-
-        <h3>Delete Desk</h3>
-        <input
-          v-model="deleteId"
-          placeholder="id"
-          type="number"
-          class="form-control"
-        />
-        <button v-on:click="deleteDesk(deleteId)" class="btn btn-danger">
-          Delete
-        </button>
-        <p>{{ deleteMessage }}</p>
-      </div>
-
-      <div class="calendar-sidebar" :class="{ active: showCalendar }">
-        <button class="close-btn" @click="toggleCalendar">Close</button>
-        <div id="calendar"></div>
-      </div>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js"></script>
+  <script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+  <link rel="stylesheet" href="index.css">
+  <title>Management</title>
+</head>
+<body>
+  <div id="app">
+    <div class="calendar-container">
+      <button @click="toggleCalendar" class="btn btn-primary">{{ currentDate }}</button>
     </div>
-    <script src="index.js"></script>
-  </body>
+    <div class="dark-mode-container">
+      <label class="switch">
+        <input type="checkbox" v-model="darkMode" @change="toggleDarkMode">
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div class="content" :class="{ shifted: showCalendar }">
+      <h1>Management</h1>
+
+      <h3>Get Desk by ID</h3>
+      <input v-model="idToGetBy" placeholder="id" type="number" class="form-control" />
+      <button v-on:click="getById(idToGetBy)" class="btn btn-info">Get by ID</button>
+      <div v-if="singleDesk">
+        <p>ID: {{ singleDesk.id }}</p>
+        <p>Name: {{ singleDesk.name }}</p>
+        <p>Occupied: {{ singleDesk.occupied }}</p>
+      </div>
+
+      <h3>All Desks</h3>
+      <div id="desklist" class="desk-list" v-if="desks && desks.length">
+        <div v-for="desk in desks" :key="desk.id" :class="['desk-box', desk.occupied ? 'occupied' : 'vacant']">
+          <h4>ID: {{ desk.id }}</h4>
+          <p>Name: {{ desk.name }}</p>
+          <p>
+            <label>
+              <input type="checkbox" v-model="desk.occupied" disabled>
+              Occupied
+            </label>
+          </p>
+        </div>
+      </div>
+
+      <h3>Update Desk</h3>
+      <input v-model="updateData.id" placeholder="id" type="number" class="form-control" />
+      <input v-model="updateData.name" placeholder="name" type="text" class="form-control" />
+      <div class="form-check">
+        <input type="checkbox" v-model="updateData.occupied" class="form-check-input" id="updateOccupied">
+        <label class="form-check-label" for="updateOccupied">Occupied</label>
+      </div>
+      <button v-on:click="updateDesk" class="btn btn-warning">Update</button>
+      <p>{{ updateMessage }}</p>
+
+      <h3>Delete Desk</h3>
+      <input v-model="deleteId" placeholder="id" type="number" class="form-control" />
+      <button v-on:click="deleteDesk(deleteId)" class="btn btn-danger">Delete</button>
+      <p>{{ deleteMessage }}</p>
+    </div>
+    <div class="calendar-sidebar" :class="{ active: showCalendar }">
+      <button class="close-btn" @click="toggleCalendar">Close</button>
+      <div id="calendar"></div>
+    </div>
+  </div>
+  <script src="index.js"></script>
+</body>
 </html>

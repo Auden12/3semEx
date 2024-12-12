@@ -1,55 +1,25 @@
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f8f9fa;
-  color: #212529;
-  margin: 0;
-  padding: 0;
-}
-
-.button-container {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  transition: right 0.3s;
-}
-
-.dark-mode-container {
-  margin-bottom: 10px;
-}
-
-.content {
-  padding: 20px;
-}
-
-.content.shifted {
-  margin-right: 33%;
-}
-
 .calendar-sidebar {
   position: fixed;
   top: 0;
   right: -33%;
   width: 33%;
   height: 100%;
-  background-color: #fff;
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-  transition: right 0.3s;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  background-color: white;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.5);
+  transition: right 0.3s ease;
+  z-index: 1000;
 }
 
 .calendar-sidebar.active {
   right: 0;
 }
 
-.calendar-sidebar.active ~ .button-container {
-  right: 33%;
+.content {
+  transition: margin-right 0.3s ease;
+}
+
+.content.shifted {
+  margin-right: 33%;
 }
 
 .close-btn {
@@ -69,18 +39,18 @@ body {
 
 .fc-header-toolbar {
   display: flex;
-  justify-content: center; /* Center the buttons */
+  flex-direction: column;
+  align-items: center;
 }
 
 .fc-header-toolbar .fc-left,
 .fc-header-toolbar .fc-right {
-  display: none; /* Hide the left and right sections */
+  order: 2;
 }
 
 .fc-header-toolbar .fc-center {
   order: 1;
-  flex-grow: 1;
-  text-align: center;
+  margin-bottom: 10px;
 }
 
 .desk-list {
@@ -96,25 +66,25 @@ body {
   flex: 1 1 calc(33.333% - 10px);
   box-sizing: border-box;
   min-width: calc(33.333% - 10px);
-  position: relative;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background: linear-gradient(
-    to bottom,
-    #f8d7da,
-    #f5c6cb
-  ); /* Default gradient for unoccupied desks */
+  position: relative; /* Add this to position the checkbox */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow for 3D effect */
+  background: linear-gradient(145deg, #e0e0e0, #f0f0f0); /* Light gradient */
 }
 
 .desk-box.occupied {
-  background: linear-gradient(
-    to bottom,
-    #d4edda,
-    #c3e6cb
-  ); /* Gradient for occupied desks */
+  background: linear-gradient(145deg, #66ff66, #33cc33); /* Brighter green gradient for occupied desks */
+}
+
+.desk-box.vacant {
+  background: linear-gradient(145deg, #ff6666, #ff3333); /* Brighter red gradient for vacant desks */
 }
 
 .desk-box h4 {
   margin: 0;
+}
+
+.desk-box p {
+  margin: 5px 0;
 }
 
 /* Position the checkbox in the top right corner */
@@ -125,6 +95,20 @@ body {
   margin: 0;
 }
 
+/* Pseudo-elements to fill the remaining space in the last row */
+.desk-list::after {
+  content: "";
+  flex: 1 1 calc(33.333% - 10px);
+  box-sizing: border-box;
+}
+
+/* Position the calendar button in the top right corner */
+.calendar-container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
 /* Dark mode styles */
 body.dark-mode {
   background-color: #121212;
@@ -132,20 +116,16 @@ body.dark-mode {
 }
 
 .dark-mode .desk-box {
-  background: linear-gradient(
-    to bottom,
-    #555,
-    #666
-  ); /* Dark gradient for unoccupied desks */
-  border-color: #555;
+  background: linear-gradient(145deg, #333, #444); /* Dark gradient */
+  border-color: #333;
 }
 
 .dark-mode .desk-box.occupied {
-  background: linear-gradient(
-    to bottom,
-    #333,
-    #444
-  ); /* Dark gradient for occupied desks */
+  background: linear-gradient(145deg, #66ff66, #208220); /* Brighter green gradient for occupied desks */
+}
+
+.dark-mode .desk-box.vacant {
+  background: linear-gradient(145deg, #ff6666, #b32020); /* Brighter red gradient for vacant desks */
 }
 
 .dark-mode .calendar-sidebar {
@@ -187,7 +167,7 @@ body.dark-mode {
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  transition: 0.4s;
+  transition: .4s;
   border-radius: 34px;
 }
 
@@ -199,12 +179,12 @@ body.dark-mode {
   left: 4px;
   bottom: 4px;
   background-color: white;
-  transition: 0.4s;
+  transition: .4s;
   border-radius: 50%;
 }
 
 input:checked + .slider {
-  background-color: #2196f3;
+  background-color: #2196F3;
 }
 
 input:checked + .slider:before {
